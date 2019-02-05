@@ -20,7 +20,7 @@ samtools mpileup -f {fasta} {bam} > {pileup}
 samtools index {bam} {bai}
 ```
 
-#### 1A. Variant calling
+#### 1B. Variant calling
 ##### Run VarScan
 * VarScan 2.3.9
 * Threshold:
@@ -48,10 +48,10 @@ java -jar VarScan.v2.3.9.jar somaticFilter {VarScan.snp.Somatic.hc} -indelfile {
 ##### False positive filter
 * binary program `bam-readcount` and perl script `fpfilter-2.pl`
 
-#### 1B. Variant annotation
+#### 1C. Variant annotation
 * Variant effect predictor version 86
 
-#### 1C. Generate peptide
+#### 1D. Generate peptide
 * pvacseq version 3.0.5
 
 ### Part 2: HLA typing
