@@ -54,7 +54,6 @@ java -jar VarScan.v2.3.9.jar somaticFilter {VarScan.snp.Somatic.hc} -indelfile {
 #### 1C. Generate peptide
 * pvacseq version 3.0.5
 
-- 
 ### Part 2: HLA typing
 * Use polysolver
 * See https://github.com/tanyaphung/run_hla_polysolver for how to run the software
