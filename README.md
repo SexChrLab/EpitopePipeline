@@ -12,6 +12,11 @@ Pipeline for predicting neoepitopes
 ```
 samtools mpileup -f {fasta} {bam} > {pileup}
 ```
+**CAUTION:** Make sure that the naming convention for chromosome is consistent between the bam files and the fasta index file. For instant, if the convention of the bam file is "1", "2", "3", and the convention of the fasta index file is "chr1", "chr2", "chr3", this step will not work. An easy fix is to modify the fasta index file using `sed`:
+
+```
+sed -i 's/chr//g' ucsc.hg19.fasta.fai
+```
 
 ##### Index bam
 * samtools 1.3.1
