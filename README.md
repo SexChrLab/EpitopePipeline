@@ -106,6 +106,7 @@ conda activate neoepitope
 conda install python=2.7
 conda install -c anaconda beautifulsoup4
 conda install -c anaconda pycurl
+conda install -c anaconda psutil
 ```
 
 
