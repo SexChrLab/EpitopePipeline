@@ -69,3 +69,44 @@ java -jar VarScan.v2.3.9.jar somaticFilter {VarScan.snp.Somatic.hc} -indelfile {
 * See https://github.com/tanyaphung/run_hla_polysolver for how to run the software
 
 ### Part 3: Neoepitope prediction
+
+*testing*
+
+* In the directory EpitopePipeline, do:
+
+```
+mkdir NeoepitopePrediction
+
+tar -xvzf IEDB_MHC_I-2.19.1.tar.gz
+
+```
+
+```
+/configure
+All prerequisites found!
+Copying the standalone-specific netMHCcons template into place
+IEDB MHC class I binding prediction tools successfully installed!
+Use the command 'python src/predict_binding.py' to get started
+```
+
+```
+git clone https://github.com/WilsonSayresLab/Neoepitope_Prediction.git
+```
+
+```
+cd NeoepitopePrediction/Neoepitope_Prediction/peptides
+for i in 15 17 19 21; do cp ../../../peptides/TCGA-A7-A26G_VarScan_vep.${i}.peptide ${i}mer; done;
+```
+
+* Temp create a conda environment for this part
+
+```
+conda create --name neoepitope
+conda activate neoepitope
+conda install python=2.7
+conda install -c anaconda beautifulsoup4
+conda install -c anaconda pycurl
+```
+
+
+
