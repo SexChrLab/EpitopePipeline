@@ -68,6 +68,14 @@ java -jar VarScan.v2.3.9.jar somaticFilter {VarScan.snp.Somatic.hc} -indelfile {
 * Use polysolver
 * See https://github.com/tanyaphung/run_hla_polysolver for how to run the software
 
+*Temp notes for running Lynch syndrome samples*
+
+* Working directory is `/home/tphung3/scratch/polysolver`. 
+
+```
+PERL5LIB=/home/tphung3/softwares/miniconda3/envs/polysolver/lib/site_perl/5.26.2/ scripts/shell_call_hla_type ~/scratch/LynchSyndrome/bams/MIL582_A2_NL.bam Unknown 1 hg19 STDFQ 0 MIL582_A2_NL
+```
+
 ### Part 3: Neoepitope prediction
 
 *testing*
