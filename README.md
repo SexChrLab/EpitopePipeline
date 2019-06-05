@@ -88,6 +88,8 @@ mkdir A7-A26G
 ```
 mkdir peptides hla IEDB_out
 ```
+  - Copy the peptides generated from snakemake pipeline to the subdirectory peptides. Please change the file name to the following format: {patientID}.length.txt such as A7-A26G.15.txt
+  - Copy the hla file to the subdirectory hla
 
 2. Run mhc
 **PART A: Configure IEDB tool**
