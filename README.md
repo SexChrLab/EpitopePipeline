@@ -112,7 +112,7 @@ Copying the standalone-specific netMHCcons template into place
 IEDB MHC class I binding prediction tools successfully installed!
 Use the command 'python src/predict_binding.py' to get started
  ```
- - Download the file `predict_binding.py` (located in `mhc_i/src/` in this Github repo). You will need to replace the `predict_binding.py` script that came with IEDB_MHC with this file.  
+ - Download the file `predict_binding.py` from this Github repo. You will need to replace the `predict_binding.py` script that came with IEDB_MHC with this file.  
 
 **PART B: run mhc**
 
