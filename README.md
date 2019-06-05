@@ -78,43 +78,54 @@ PERL5LIB=/home/tphung3/softwares/miniconda3/envs/polysolver/lib/site_perl/5.26.2
 
 ### Part 3: Neoepitope prediction
 
-*testing*
-
-* In the directory EpitopePipeline, do:
-
+1. Create a directory where the direcoty name is the patient's name. In the example here, I'm using `A7-A26G`.
 ```
-mkdir NeoepitopePrediction
-
-tar -xvzf IEDB_MHC_I-2.19.1.tar.gz
-
+mkdir A7-A26G
 ```
 
+- We will create 3 sub-directories:
+
 ```
-/configure
-All prerequisites found!
+mkdir peptides hla IEDB_out
+```
+
+2. Run mhc
+**PART A: Configure IEDB tool**
+* Download the IEDB tool from http://tools.iedb.org/mhci/download/
+ - untar the folder:
+ ```
+ tar -xzvf IEDB_MHC_I-2.19.1.tar.gz
+ ```
+ - configure the tool and exit out of the directory 
+ ```
+ cd mhc_i/
+ ./configure
+ cd ..
+ ```
+ 
+ - You will get a message like this after configuring the tool:
+ ```
+ All prerequisites found!
 Copying the standalone-specific netMHCcons template into place
 IEDB MHC class I binding prediction tools successfully installed!
 Use the command 'python src/predict_binding.py' to get started
-```
+ ```
+ - Download the file `predict_binding.py` (located in `mhc_i/src/` in this Github repo). You will need to replace the `predict_binding.py` script that came with IEDB_MHC with this file.  
+
+**PART B: run mhc**
+
+- Use the script `run_mhc.py`
 
 ```
-git clone https://github.com/WilsonSayresLab/Neoepitope_Prediction.git
+python run_mhc.py --hla A7-A26G/hla/TCGA-A7-A26G-10.hla.txt --patientID A7-A26G --output_dir A7-A26G/
 ```
 
-```
-cd NeoepitopePrediction/Neoepitope_Prediction/peptides
-for i in 15 17 19 21; do cp ../../../peptides/TCGA-A7-A26G_VarScan_vep.${i}.peptide ${i}mer; done;
-```
+**PART C: For each transcript, select peptide with the lowest IEDB score**
 
-* Temp create a conda environment for this part
+- Use the script `find_potential_neoepitope.py`
 
 ```
-conda create --name neoepitope
-conda activate neoepitope
-conda install python=2.7
-conda install -c anaconda beautifulsoup4
-conda install -c anaconda pycurl
-conda install -c anaconda psutil
+python find_potential_neoepitope.py --dir A7-A26G --hla A7-A26G/hla/TCGA-A7-A26G-10.hla.txt --patientID A7-A26G
 ```
 
 
