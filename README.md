@@ -114,7 +114,7 @@ Use the command 'python src/predict_binding.py' to get started
 
 **PART B: run mhc**
 
-- Use the script `run_mhc.py`
+- Use the script `run_mhc.py`. This Python script has to be run in Python 2.
 
 ```
 python run_mhc.py --hla A7-A26G/hla/TCGA-A7-A26G-10.hla.txt --patientID A7-A26G --output_dir A7-A26G/
@@ -122,7 +122,7 @@ python run_mhc.py --hla A7-A26G/hla/TCGA-A7-A26G-10.hla.txt --patientID A7-A26G 
 
 **PART C: For each transcript, select peptide with the lowest IEDB score**
 
-- Use the script `find_potential_neoepitope.py`
+- Use the script `find_potential_neoepitope.py`. This Python script has to be in Python 3. 
 
 ```
 python find_potential_neoepitope.py --dir A7-A26G --hla A7-A26G/hla/TCGA-A7-A26G-10.hla.txt --patientID A7-A26G
