@@ -77,21 +77,35 @@ PERL5LIB=/home/tphung3/softwares/miniconda3/envs/polysolver/lib/site_perl/5.26.2
 ```
 
 ### Part 3: Neoepitope prediction
-
-1. Create a directory where the direcoty name is the patient's name. In the example here, I'm using `A7-A26G`.
+**Configure directory**
+1. Configure the directory where inputs needed for MHC and outputs from MHC will be stored.
+- Use the Python script `configuration.py`:
 ```
-mkdir A7-A26G
+python configuration.py -h
+Usage: python configuration.py <options>
+
+Options:
+  -h, --help            show this help message and exit
+  --directory=DIRECTORY
+  --peptides_directory=PEPTIDES_DIRECTORY
+```
+- Example:
+```
+python configuration.py --directory TCGA-DD-A113_WES_XX --peptides_directory ~/scratch/Neoepitope/LiverCancerR21/peptides
+```
+- The Python script `configuration.py` does the following:
+  + create a directory where the inputs for MHC and outputs from MHC will be stored. The name of this directory is specified by the argument `directory`.
+  + under the new directory `directory`, create 3 directories: peptides, hla, and IEDB_out. 
+  + copy the peptide files to the peptides directory
+
+2. Copy the hla file to the subdirectory hla. For example:
+```
+cat TCGA-A7-A26G-10.hla.txt
+HLA-A   hla_a_03_01_01_01       hla_a_30_02_04
+HLA-B   hla_b_15_16_01  hla_b_57_03_01
+HLA-C   hla_c_16_01_01  hla_c_07_01_09
 ```
 
-- We will create 3 sub-directories:
-
-```
-mkdir peptides hla IEDB_out
-```
-  - Copy the peptides generated from snakemake pipeline to the subdirectory peptides. Please change the file name to the following format: {patientID}.length.txt such as A7-A26G.15.txt
-  - Copy the hla file to the subdirectory hla
-
-2. Run mhc
 **PART A: Configure IEDB tool**
 * Download the IEDB tool from http://tools.iedb.org/mhci/download/
  - untar the folder:
