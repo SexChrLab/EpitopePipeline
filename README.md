@@ -1,5 +1,4 @@
-# EpitopePipeline
-Pipeline for predicting neoepitopes
+# Neoepitope prediction pipeline
 
 ## Pipeline description
 * The Epitope pipeline is consisted of three parts: peptide generation, hla typing, and neoepitope prediction
