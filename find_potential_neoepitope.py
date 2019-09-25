@@ -1,4 +1,4 @@
-# Run script `` in order to run netMHC to produce file such as output_IEDB.15.txt.
+# Run script `run_mhc.py` in order to run netMHC to produce file such as output_IEDB.15.txt.
 # This script is intended to process after IEDB step.
 # It will:
 # 1. Get min score
@@ -12,16 +12,25 @@ import argparse
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Find potential neoepitope')
-    parser.add_argument('--dir', required=True,
-                        help='REQUIRED. Input the path to the directory.')
     parser.add_argument('--hla', required=True,
                         help='REQUIRED. Input the path to the hla file.')
     parser.add_argument('--patientID', required=True,
-                        help='REQUIRED. Input the patient ID.')
+                        help='REQUIRED. Input the patient ID. PatientID is also the name of the output directory')
+    parser.add_argument('--hla_type', required=True,
+                        help='REQUIRED.')
+
     args = parser.parse_args()
     return args
 
 def get_min_score(mer_len, output_IEDB_fn, peptide_fn, min_score_out_fn):
+    """
+    This function obtains the peptide with the minimum IEDB score.
+    :param mer_len:
+    :param output_IEDB_fn:
+    :param peptide_fn:
+    :param min_score_out_fn:
+    :return:
+    """
     score_dict = defaultdict(list)  # key is the peptide and values are scores
     with open(output_IEDB_fn, 'r') as f:
         for line in f:
@@ -77,40 +86,44 @@ def select_peptide(merged_peptides_fn, out_fn):
 def main():
     args = parse_args()
 
-    hlas = []
     with open(args.hla, 'r') as f:
         for line in f:
-            hlas.append(line.rstrip('\n').split('\t')[1:])
-    hlas = [item for sublist in hlas for item in sublist] #make a flat list
+            hla = line.rstrip('\n').split('\t')[1]
 
-    for hla in hlas:
+    # hlas = []
+    # with open(args.hla, 'r') as f:
+    #     for line in f:
+    #         hlas.append(line.rstrip('\n').split('\t')[1:])
+    # hlas = [item for sublist in hlas for item in sublist] #make a flat list
+    #
+    # for hla in hlas:
 
-        get_min_score(8, args.dir + '/IEDB_out/' + hla + '/output_IEDB.15.txt', args.dir + '/peptides/'+ args.patientID + '.15.txt', args.dir + '/IEDB_out/' + hla + '/output_IEDB.15_minscore.txt')
-        get_min_score(9, args.dir + '/IEDB_out/' + hla + '/output_IEDB.17.txt',
-                      args.dir + '/peptides/' + args.patientID + '.17.txt',
-                      args.dir + '/IEDB_out/' + hla + '/output_IEDB.17_minscore.txt')
-        get_min_score(10, args.dir + '/IEDB_out/' + hla + '/output_IEDB.19.txt',
-                      args.dir + '/peptides/' + args.patientID + '.19.txt',
-                      args.dir + '/IEDB_out/' + hla + '/output_IEDB.19_minscore.txt')
-        get_min_score(11, args.dir + '/IEDB_out/' + hla + '/output_IEDB.21.txt',
-                      args.dir + '/peptides/' + args.patientID + '.21.txt',
-                      args.dir + '/IEDB_out/' + hla + '/output_IEDB.21_minscore.txt')
+            get_min_score(8, args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.15.txt', args.patientID + '/peptides/'+ args.patientID + '.15.txt', args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.15_minscore.txt')
+            get_min_score(9, args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.17.txt',
+                          args.patientID + '/peptides/' + args.patientID + '.17.txt',
+                          args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.17_minscore.txt')
+            get_min_score(10, args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.19.txt',
+                          args.patientID + '/peptides/' + args.patientID + '.19.txt',
+                          args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.19_minscore.txt')
+            get_min_score(11, args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.21.txt',
+                          args.patientID + '/peptides/' + args.patientID + '.21.txt',
+                          args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.21_minscore.txt')
 
-        peptide_15_df = pd.read_csv(args.dir + '/IEDB_out/' + hla + '/output_IEDB.15_minscore.txt', sep='\t', names = ["transcript", "peptide_15", "score_15"])
-        peptide_17_df = pd.read_csv(args.dir + '/IEDB_out/' + hla + '/output_IEDB.17_minscore.txt', sep='\t',
-                                    names=["transcript", "peptide_17", "score_17"])
-        peptide_19_df = pd.read_csv(args.dir + '/IEDB_out/' + hla + '/output_IEDB.19_minscore.txt', sep='\t',
-                                    names=["transcript", "peptide_19", "score_19"])
-        peptide_21_df = pd.read_csv(args.dir + '/IEDB_out/' + hla + '/output_IEDB.21_minscore.txt', sep='\t',
-                                    names=["transcript", "peptide_21", "score_21"])
+            peptide_15_df = pd.read_csv(args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.15_minscore.txt', sep='\t', names = ["transcript", "peptide_15", "score_15"])
+            peptide_17_df = pd.read_csv(args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.17_minscore.txt', sep='\t',
+                                        names=["transcript", "peptide_17", "score_17"])
+            peptide_19_df = pd.read_csv(args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.19_minscore.txt', sep='\t',
+                                        names=["transcript", "peptide_19", "score_19"])
+            peptide_21_df = pd.read_csv(args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.21_minscore.txt', sep='\t',
+                                        names=["transcript", "peptide_21", "score_21"])
 
-        peptide_15_17_merge = pd.merge(peptide_15_df, peptide_17_df, on="transcript")
-        peptide_15_17_19_merge = pd.merge(peptide_15_17_merge, peptide_19_df, on="transcript")
-        peptide_15_17_19_21_merge = pd.merge(peptide_15_17_19_merge, peptide_21_df, on="transcript")
+            peptide_15_17_merge = pd.merge(peptide_15_df, peptide_17_df, on="transcript")
+            peptide_15_17_19_merge = pd.merge(peptide_15_17_merge, peptide_19_df, on="transcript")
+            peptide_15_17_19_21_merge = pd.merge(peptide_15_17_19_merge, peptide_21_df, on="transcript")
 
-        peptide_15_17_19_21_merge.to_csv(args.dir + '/IEDB_out/' + hla + '/output_IEDB.15.17.19.21_minscore.txt', sep='\t', index=False)
+            peptide_15_17_19_21_merge.to_csv(args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.15.17.19.21_minscore.txt', sep='\t', index=False)
 
-        select_peptide(args.dir + '/IEDB_out/' + hla + '/output_IEDB.15.17.19.21_minscore.txt', args.dir + '/IEDB_out/' + hla + '/output_IEDB.15.17.19.21_minscore_minpeptide.txt')
+            select_peptide(args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.15.17.19.21_minscore.txt', args.patientID + '/IEDB_out/' + args.hla_type + '/output_IEDB.15.17.19.21_minscore_minpeptide.txt')
 
 main()
 

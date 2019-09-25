@@ -11,14 +11,14 @@ def parse_args():
     parser.add_argument('--hla', required=True,
                         help='REQUIRED. Input the path to the hla file.')
     parser.add_argument('--patientID', required=True,
-                        help='REQUIRED. Input the patient ID.')
-    parser.add_argument('--output_dir', required=True,
-                        help='REQUIRED. Path to output directory.')
+                        help='REQUIRED. Input the patient ID. PatientID is also the name of the output directory')
+    parser.add_argument('--hla_type', required=True,
+                        help='REQUIRED.')
 
     args = parser.parse_args()
     return args
 
-def process_hla_mer(hla, patientID, mer_len, peptide_len, dir):
+def process_hla_mer(hla, patientID, mer_len, peptide_len, hla_type):
     '''
     This function processes for 1 hla and 1 mer
     hla: hla_a_03_01_01_01
@@ -47,27 +47,41 @@ def process_hla_mer(hla, patientID, mer_len, peptide_len, dir):
     prediction = Prediction()
 
     prediction.commandline_input_w_file('IEDB_recommended', hla_IEDBlabel, str(mer_len),
-                                        'peptides/' + patientID + '.' + str(peptide_len) + '.txt',
-                                        dir + '/IEDB_out/' + hla + '/output_IEDB.' + str(peptide_len) + '.txt')
+                                        patientID + '/peptides/' + patientID + '.' + str(peptide_len) + '.txt',
+                                        patientID + '/IEDB_out/' + hla_type + '/output_IEDB.' + str(peptide_len) + '.txt')
 
 def main():
     args = parse_args()
-    hlas = []
+    # hlas = []
+
+    # The following codes commented out are for the hla file format from polysolver
+    # with open(args.hla, 'r') as f:
+    #     for line in f:
+    #         hlas.append(line.rstrip('\n').split('\t')[1:])
+    # hlas = [item for sublist in hlas for item in sublist] #make a flat list
+    # print hlas
+
+    # The following codes are for the hla file format from HLA-LA (after running the script format_hla_output.py file)
     with open(args.hla, 'r') as f:
         for line in f:
-            hlas.append(line.rstrip('\n').split('\t')[1:])
-    hlas = [item for sublist in hlas for item in sublist] #make a flat list
-    print hlas
+            hla = line.rstrip('\n').split('\t')[1]
+            # hlas.append(line.rstrip('\n').split('\t')[1])
+            # hla = line.rstrip('\n').split('\t')[1]
+            print hla
 
     # Make output folder:
 
-    for hla in hlas:
-        os.makedirs(args.output_dir + '/IEDB_out/' + hla)
+    # for hla in hlas:
+    #     if not os.path.exists(args.output_dir + '/IEDB_out/' + hla):
+    #         os.makedirs(args.output_dir + '/IEDB_out/' + hla)
 
-        process_hla_mer(hla, args.patientID, 8, 15, args.output_dir)
-        process_hla_mer(hla, args.patientID, 9, 17, args.output_dir)
-        process_hla_mer(hla, args.patientID, 10, 19, args.output_dir)
-        process_hla_mer(hla, args.patientID, 11, 21, args.output_dir)
+            if not os.path.exists(args.patientID + '/IEDB_out/' + args.hla_type):
+                os.makedirs(args.patientID + '/IEDB_out/' + args.hla_type)
+
+            process_hla_mer(hla, args.patientID, 8, 15, args.hla_type)
+            process_hla_mer(hla, args.patientID, 9, 17, args.hla_type)
+            process_hla_mer(hla, args.patientID, 10, 19, args.hla_type)
+            process_hla_mer(hla, args.patientID, 11, 21, args.hla_type)
 
 if __name__ == '__main__':
     main()
