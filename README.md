@@ -148,7 +148,7 @@ optional arguments:
 python run_mhc.py --hla TCGA-BC-A10Y_WES_XY_withoutYpar/hla/hla_a_03_02_01.txt --patientID TCGA-BC-A10Y_WES_XY_withoutYpar --hla_type hla_a_1
 ```
 
-#### For each transcript, merge and select peptide with the lowest IEDB score**
+#### For each transcript, merge and select peptide with the lowest IEDB score
 1. Use the script `find_potential_neoepitope.py`. This Python script is run in Python 3.
 ```
 python find_potential_neoepitope.py -h
